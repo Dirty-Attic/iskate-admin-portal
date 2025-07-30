@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { app as firebaseApp } from '@/utils/firebase';
+import type { Timestamp } from 'firebase/firestore';
 import DashboardNavBar from '@/components/DashboardNavBar';
 import DashboardSideNav from '@/components/DashboardSideNav';
 import { useUser } from '@/context/UserContext';
@@ -19,9 +20,9 @@ type UserStatus = {
   banned?: boolean;
   suspended?: boolean;
   reason?: string;
-  bannedAt?: unknown;
-  suspendedAt?: unknown;
-  unsuspendDate?: unknown;
+  bannedAt?: Timestamp | Date | string | null;
+  suspendedAt?: Timestamp | Date | string | null;
+  unsuspendDate?: Timestamp | Date | string | null;
 };
 
 type User = import('@/context/UserContext').User & {
@@ -31,11 +32,18 @@ type User = import('@/context/UserContext').User & {
 export default function UserManagementPage() {
   const { user } = useUser();
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<SortOption>('username');
   const [filter, setFilter] = useState<'all' | 'admin' | 'mod' | 'owner'>('all');
   const [rolesMap, setRolesMap] = useState<Record<string, string[]>>({});
+  function formatUnsuspendDate(date: Timestamp | Date | string | null | undefined) {
+    if (!date) return '';
+    if (typeof date === 'string') return date;
+    if (date instanceof Date) return date.toLocaleDateString();
+    if (typeof (date as Timestamp).toDate === 'function') return (date as Timestamp).toDate().toLocaleDateString();
+    return String(date);
+  }
 
   // Fetch users helper
   const fetchUsers = async () => {
@@ -305,11 +313,7 @@ export default function UserManagementPage() {
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : '—'}</td>
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>{u.status?.reason || ''}</td>
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>
-                          {typeof (u.status?.unsuspendDate as any)?.toDate === 'function'
-                            ? (u.status?.unsuspendDate as any).toDate().toLocaleDateString()
-                            : u.status?.unsuspendDate
-                              ? String(u.status.unsuspendDate)
-                              : ''}
+                          {formatUnsuspendDate(u.status?.unsuspendDate)}
                           <button
                             className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-green-400 to-green-600 text-black font-semibold shadow hover:scale-105 hover:from-green-500 hover:to-green-700 transition-transform duration-150 ml-2"
                             title="Unsuspend user"
