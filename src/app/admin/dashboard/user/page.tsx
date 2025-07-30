@@ -143,24 +143,24 @@ export default function UserManagementPage() {
       <DashboardNavBar user={user} />
       <div className="flex flex-1">
         <DashboardSideNav />
-        <main className="flex-1 p-8">
-          <h1 className="text-2xl font-bold mb-4">User Management</h1>
+        <main className="flex-1 p-4 sm:p-8 w-full max-w-full overflow-x-auto">
+          <h1 className="text-xl sm:text-2xl font-bold mb-4">User Management</h1>
           
           {/* Filters */}
-          <section className="mb-6 flex gap-4 items-center flex-wrap">
+          <section className="mb-6 flex flex-col sm:flex-row gap-2 sm:gap-4 items-stretch sm:items-center flex-wrap">
             <input
               type="text"
               placeholder="Search by username or UID..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="border px-3 py-2 rounded w-64"
+              className="border px-3 py-2 rounded w-full sm:w-64"
             />
-            <select value={sort} onChange={e => setSort(e.target.value as SortOption)} className="border px-3 py-2 rounded">
+            <select value={sort} onChange={e => setSort(e.target.value as SortOption)} className="border px-3 py-2 rounded w-full sm:w-auto">
               <option value="username">Sort by Username</option>
               <option value="uid">Sort by UID</option>
               <option value="roles">Sort by Roles</option>
             </select>
-            <select value={filter} onChange={e => setFilter(e.target.value as FilterOption)} className="border px-3 py-2 rounded">
+            <select value={filter} onChange={e => setFilter(e.target.value as FilterOption)} className="border px-3 py-2 rounded w-full sm:w-auto">
               <option value="all">All Users</option>
               <option value="admin">Admin</option>
               <option value="mod">Mod</option>
@@ -171,14 +171,14 @@ export default function UserManagementPage() {
           {/* Active Users Table */}
           <div className="overflow-x-auto mb-12">
             <h2 className="text-lg font-semibold mb-2">Active Users</h2>
-            <table className="min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900">
+            <table className="min-w-[600px] sm:min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900 text-xs sm:text-base">
               <thead className="sticky top-0 bg-zinc-100 dark:bg-zinc-800 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,17 +187,17 @@ export default function UserManagementPage() {
                     key={u.uid}
                     className={`transition-colors ${idx % 2 === 0 ? 'bg-zinc-50 dark:bg-zinc-800' : 'bg-white dark:bg-zinc-900'} hover:bg-blue-50 dark:hover:bg-blue-900`}
                   >
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       {u.photoURL ? (
-                        <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="rounded-full border" />
+                        <Image src={u.photoURL} alt={u.username ?? ''} width={32} height={32} className="rounded-full border" />
                       ) : (
                         <span className="text-zinc-400">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 font-medium">{u.username}</td>
-                    <td className="px-4 py-3 font-mono text-xs">{u.uid}</td>
-                    <td className="px-4 py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">{u.username}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-mono text-xs">{u.uid}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       <UserActionMenu
                         isOpen={openMenuUid === u.uid}
                         openUp={openUpMap[u.uid] || false}
@@ -238,15 +238,15 @@ export default function UserManagementPage() {
           {/* Banned Users Table */}
           <div className="overflow-x-auto mb-12">
             <h2 className="text-lg font-semibold mb-2 text-red-600">Banned Users</h2>
-            <table className="min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900">
+            <table className="min-w-[600px] sm:min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900 text-xs sm:text-base">
               <thead className="sticky top-0 bg-zinc-100 dark:bg-zinc-800 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Reason</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Reason</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -255,20 +255,20 @@ export default function UserManagementPage() {
                     key={u.uid}
                     className={`transition-colors ${idx % 2 === 0 ? 'bg-zinc-50 dark:bg-zinc-800' : 'bg-white dark:bg-zinc-900'} hover:bg-red-50 dark:hover:bg-red-900`}
                   >
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       {u.photoURL ? (
-                        <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="rounded-full border" />
+                        <Image src={u.photoURL} alt={u.username ?? ''} width={32} height={32} className="rounded-full border" />
                       ) : (
                         <span className="text-zinc-400">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 font-medium">{u.username}</td>
-                    <td className="px-4 py-3 font-mono text-xs">{u.uid}</td>
-                    <td className="px-4 py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
-                    <td className="px-4 py-3">{u.status?.reason}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">{u.username}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-mono text-xs">{u.uid}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">{u.status?.reason}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       <button
-                        className="px-4 py-1.5 bg-green-500 hover:bg-green-600 text-black rounded-full font-semibold transition"
+                        className="px-2 sm:px-4 py-1.5 bg-green-500 hover:bg-green-600 text-black rounded-full font-semibold transition text-xs sm:text-base"
                         onClick={async () => {
                           if (window.confirm(`Unban ${u.username || u.uid}?`)) {
                             await unsuspendUser(u.uid);
@@ -289,15 +289,15 @@ export default function UserManagementPage() {
           {/* Suspended Users Table */}
           <div className="overflow-x-auto mb-12">
             <h2 className="text-lg font-semibold mb-2 text-yellow-600">Suspended Users</h2>
-            <table className="min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900">
+            <table className="min-w-[600px] sm:min-w-full border-separate border-spacing-0 rounded-xl shadow-lg bg-white dark:bg-zinc-900 text-xs sm:text-base">
               <thead className="sticky top-0 bg-zinc-100 dark:bg-zinc-800 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Reason</th>
-                  <th className="px-4 py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Unsuspend Date</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Reason</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Unsuspend Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -306,21 +306,21 @@ export default function UserManagementPage() {
                     key={u.uid}
                     className={`transition-colors ${idx % 2 === 0 ? 'bg-zinc-50 dark:bg-zinc-800' : 'bg-white dark:bg-zinc-900'} hover:bg-yellow-50 dark:hover:bg-yellow-900`}
                   >
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       {u.photoURL ? (
-                        <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="rounded-full border" />
+                        <Image src={u.photoURL} alt={u.username ?? ''} width={32} height={32} className="rounded-full border" />
                       ) : (
                         <span className="text-zinc-400">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 font-medium">{u.username}</td>
-                    <td className="px-4 py-3 font-mono text-xs">{u.uid}</td>
-                    <td className="px-4 py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
-                    <td className="px-4 py-3">{u.status?.reason}</td>
-                    <td className="px-4 py-3 flex items-center gap-2">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">{u.username}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-mono text-xs">{u.uid}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">{u.status?.reason}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 flex flex-col sm:flex-row items-start sm:items-center gap-2">
                       {formatUnsuspendDate(u.status?.unsuspendDate)}
                       <button
-                        className="ml-2 px-4 py-1.5 bg-green-500 hover:bg-green-600 text-black rounded-full font-semibold transition"
+                        className="mt-2 sm:mt-0 px-2 sm:px-4 py-1.5 bg-green-500 hover:bg-green-600 text-black rounded-full font-semibold transition text-xs sm:text-base"
                         onClick={async () => {
                           if (window.confirm(`Unsuspend ${u.username || u.uid}?`)) {
                             await unsuspendUser(u.uid);

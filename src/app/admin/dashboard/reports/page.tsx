@@ -211,7 +211,7 @@ export default function ReportsPage() {
             </div>
             {showResolve && (
               <button
-                className="mt-4 px-4 py-2 rounded hover:bg-green-700 transition"
+                className="mt-4 w-full sm:w-auto px-4 py-2 rounded hover:bg-green-700 transition text-sm sm:text-base"
                 style={{ background: "#22c55e", color: "#fff" }}
                 onClick={() => handleMarkResolved(report.reportId)}
               >
@@ -232,16 +232,16 @@ export default function ReportsPage() {
       {user && <DashboardNavBar user={user} />}
       <div className="flex flex-1">
         <DashboardSideNav />
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 sm:p-8 w-full max-w-full overflow-x-auto">
           <h1
-            className="text-2xl font-bold mb-6"
+            className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6"
             style={{ color: "var(--foreground)" }}
           >
             All Reports
           </h1>
-          <section className="mb-12">
+          <section className="mb-8 sm:mb-12">
             <h2
-              className="text-xl font-semibold mb-4"
+              className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4"
               style={{ color: "var(--foreground)" }}
             >
               Pending Reports
@@ -249,7 +249,7 @@ export default function ReportsPage() {
             {pendingReports.length === 0 ? (
               <div style={{ color: "var(--foreground)" }}>No pending reports.</div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {pendingReports.map((report) =>
                   renderReportCard(report, true)
                 )}
@@ -258,7 +258,7 @@ export default function ReportsPage() {
           </section>
           <section>
             <h2
-              className="text-xl font-semibold mb-4"
+              className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4"
               style={{ color: "var(--foreground)" }}
             >
               Resolved Reports
@@ -266,7 +266,7 @@ export default function ReportsPage() {
             {resolvedReports.length === 0 ? (
               <div style={{ color: "var(--foreground)" }}>No resolved reports.</div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {resolvedReports.map((report) =>
                   renderReportCard(report, false)
                 )}

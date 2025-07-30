@@ -85,29 +85,29 @@ export default function AppManagementPage() {
       <DashboardNavBar user={user} />
       <div className="flex flex-1">
         <DashboardSideNav />
-        <main className="flex-1 p-8">
-          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--foreground)' }}>App Management</h1>
-          <section className="mb-8">
+        <main className="flex-1 p-4 sm:p-8 w-full max-w-full overflow-x-auto">
+          <h1 className="text-xl sm:text-2xl font-bold mb-4" style={{ color: 'var(--foreground)' }}>App Management</h1>
+          <section className="mb-6 sm:mb-8">
             <p style={{ color: 'var(--foreground)', opacity: 0.8 }}>Manage app settings and status here.</p>
           </section>
           {isOwner && appActive !== null && (
             <section
-              className="mt-12 border rounded-lg p-6 max-w-xl"
+              className="mt-8 sm:mt-12 border rounded-lg p-4 sm:p-6 w-full max-w-full sm:max-w-xl"
               style={{
                 background: appActive ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)',
                 borderColor: appActive ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)',
               }}
             >
               <h2
-                className="text-xl font-bold mb-2"
+                className="text-lg sm:text-xl font-bold mb-2"
                 style={{ color: appActive ? 'var(--foreground)' : '#dc2626' }}
               >
                 Danger Zone
               </h2>
-              <p className="mb-4" style={{ color: '#dc2626' }}>
+              <p className="mb-4 text-sm sm:text-base" style={{ color: '#dc2626' }}>
                 This area is only visible to owners. Use with caution!
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <span
                   className="px-3 py-1 rounded-full text-sm font-semibold"
                   style={{
@@ -118,7 +118,7 @@ export default function AppManagementPage() {
                   {appActive ? 'Active' : 'Inactive'}
                 </span>
                 <button
-                  className="px-6 py-2 rounded font-bold transition-colors disabled:opacity-50"
+                  className="w-full sm:w-auto px-4 sm:px-6 py-2 rounded font-bold transition-colors disabled:opacity-50"
                   style={{
                     background: '#dc2626',
                     color: '#fff',

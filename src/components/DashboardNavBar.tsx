@@ -11,7 +11,7 @@ export default function DashboardNavBar({ user }: DashboardNavBarProps) {
 
   return (
     <nav
-      className="flex items-center justify-between px-8 py-4 border-b shadow-sm"
+      className="flex items-center justify-between px-8 py-4 border-b shadow-sm relative z-50"
       style={{
         background: 'var(--background)',
         color: 'var(--foreground)',
@@ -43,7 +43,7 @@ export default function DashboardNavBar({ user }: DashboardNavBarProps) {
         </button>
         {menuOpen && user && (
           <div
-            className="absolute right-0 mt-2 w-40 border rounded shadow-lg z-10"
+            className="absolute right-0 mt-2 w-40 border rounded shadow-lg z-50"
             style={{
               background: 'var(--background)',
               color: 'var(--foreground)',
@@ -53,7 +53,7 @@ export default function DashboardNavBar({ user }: DashboardNavBarProps) {
           >
             <div className="px-4 py-2 text-sm" style={{ color: 'var(--foreground)' }}>{user.username}</div>
             <button
-              className="w-full px-4 py-2 text-left hover:bg-gray-100"
+              className="w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800"
               style={{ color: '#e11d48', background: 'var(--card)' }}
               onClick={() => {
                 window.location.href = "/login";
