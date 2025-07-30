@@ -115,7 +115,7 @@ export default function LoginPage() {
                     )}
                 </form>
                 <div className="mt-8 text-center text-xs text-[var(--color-foreground)/60]">
-                    &copy; {new Date().getFullYear()} iSkate Admin Portal
+                    &copy; {new Date().getFullYear()} Dirty Attic
                 </div>
             </div>
         </div>
