@@ -16,7 +16,7 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError(null)
+        setError(null);
 
         try {
             const auth = getAuth(app);
@@ -28,7 +28,7 @@ export default function LoginPage() {
             const userDocRef = doc(db, "users/" + user.uid);
             const userDocSnap = await getDoc(userDocRef);
             let photoURL = user.photoURL;
-            let username = user.username;
+            let username = null;
             if (userDocSnap.exists()) {
                 const data = userDocSnap.data();
                 if (data.photoURL) photoURL = data.photoURL;
@@ -48,10 +48,13 @@ export default function LoginPage() {
             } else {
                 setError("You do not currently have admin access.");
             }
-        } catch (err: any) {
-            let message = err.message || "Login failed. Please try again.";
-            if (message.includes("auth/invalid-credential")) {
-                message = "Invalid email or password. Please check your credentials and try again.";
+        } catch (err: unknown) {
+            let message = "Login failed. Please try again.";
+            if (err instanceof Error && err.message) {
+                message = err.message;
+                if (message.includes("auth/invalid-credential")) {
+                    message = "Invalid email or password. Please check your credentials and try again.";
+                }
             }
             setError(message);
         } finally {

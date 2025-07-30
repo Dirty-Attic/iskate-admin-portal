@@ -76,7 +76,7 @@ export default function ReportsPage() {
           };
         });
         setReports(data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error(err);
         setError("Failed to fetch reports.");
       } finally {
@@ -99,9 +99,11 @@ export default function ReportsPage() {
           r.reportId === reportId ? { ...r, status: "Resolved" } : r
         )
       );
-    } catch (err: any) {
-      console.error("Update failed:", err.code, err.message);
-      alert(`Error: ${err.code} - ${err.message}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Update failed:", err.message);
+        alert(`Error: ${err.message}`);
+      }
     }
   };
 

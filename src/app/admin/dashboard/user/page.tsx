@@ -9,6 +9,7 @@ import { useUser } from '@/context/UserContext';
 import UserActionMenu from '@/components/UserActionMenu';
 import { banUser, suspendUser, unsuspendUser } from '@/services/adminService';
 import ManagerRolesModal from '@/components/ManagerRolesModal';
+import Image from "next/image";
 
 const db = getFirestore(firebaseApp);
 
@@ -18,9 +19,9 @@ type UserStatus = {
   banned?: boolean;
   suspended?: boolean;
   reason?: string;
-  bannedAt?: any;
-  suspendedAt?: any;
-  unsuspendDate?: any;
+  bannedAt?: unknown;
+  suspendedAt?: unknown;
+  unsuspendDate?: unknown;
 };
 
 type User = import('@/context/UserContext').User & {
@@ -176,7 +177,7 @@ export default function UserManagementPage() {
                       <tr key={u.uid} style={{ background: 'var(--card)', color: 'var(--foreground)' }}>
                         <td className="px-4 py-2 border-b" style={{ borderColor: 'var(--border)' }}>
                           {u.photoURL ? (
-                            <img src={u.photoURL} alt={u.username ?? ''} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
+                            <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
                           ) : (
                             <span className="inline-block w-10 h-10 rounded-full border" style={{ background: 'var(--background)', borderColor: 'var(--border)' }} />
                           )}
@@ -244,7 +245,7 @@ export default function UserManagementPage() {
                       <tr key={u.uid} style={{ background: 'var(--card)', color: 'var(--foreground)' }}>
                         <td className="px-4 py-2 border-b" style={{ borderColor: 'var(--border)' }}>
                           {u.photoURL ? (
-                            <img src={u.photoURL} alt={u.username ?? ''} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
+                            <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
                           ) : (
                             <span className="inline-block w-10 h-10 rounded-full border" style={{ background: 'var(--background)', borderColor: 'var(--border)' }} />
                           )}
@@ -294,7 +295,7 @@ export default function UserManagementPage() {
                       <tr key={u.uid} style={{ background: 'var(--card)', color: 'var(--foreground)' }}>
                         <td className="px-4 py-2 border-b" style={{ borderColor: 'var(--border)' }}>
                           {u.photoURL ? (
-                            <img src={u.photoURL} alt={u.username ?? ''} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
+                            <Image src={u.photoURL} alt={u.username ?? ''} width={40} height={40} className="w-10 h-10 rounded-full object-cover border" style={{ borderColor: 'var(--border)' }} />
                           ) : (
                             <span className="inline-block w-10 h-10 rounded-full border" style={{ background: 'var(--background)', borderColor: 'var(--border)' }} />
                           )}
@@ -304,7 +305,11 @@ export default function UserManagementPage() {
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : '—'}</td>
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>{u.status?.reason || ''}</td>
                         <td className="px-4 py-2 border-b text-xs" style={{ borderColor: 'var(--border)' }}>
-                          {u.status?.unsuspendDate?.toDate ? u.status.unsuspendDate.toDate().toLocaleDateString() : ''}
+                          {typeof (u.status?.unsuspendDate as any)?.toDate === 'function'
+                            ? (u.status?.unsuspendDate as any).toDate().toLocaleDateString()
+                            : u.status?.unsuspendDate
+                              ? String(u.status.unsuspendDate)
+                              : ''}
                           <button
                             className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-green-400 to-green-600 text-black font-semibold shadow hover:scale-105 hover:from-green-500 hover:to-green-700 transition-transform duration-150 ml-2"
                             title="Unsuspend user"
