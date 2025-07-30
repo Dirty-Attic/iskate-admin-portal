@@ -16,9 +16,9 @@ export default function DashboardSideNav() {
 
   return (
     <>
-      {/* Mobile toggle button - bottom left, original styling */}
+      {/* Mobile toggle button - bottom left, only visible on mobile */}
       <button
-        className="fixed bottom-6 left-4 z-40 bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-3 shadow-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="md:hidden fixed bottom-6 left-4 z-40 bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-3 shadow-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close navigation" : "Open navigation"}
         aria-expanded={open}
