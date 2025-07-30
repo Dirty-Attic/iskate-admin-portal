@@ -11,14 +11,14 @@ export default function DashboardNavBar({ user }: DashboardNavBarProps) {
 
   return (
     <nav
-      className="flex items-center justify-between px-8 py-4 border-b shadow-sm relative z-50"
+      className="flex items-center justify-between px-4 sm:px-2 py-4 border-b shadow-sm relative z-50"
       style={{
         background: 'var(--background)',
         color: 'var(--foreground)',
         borderColor: 'var(--border)',
       }}
     >
-      <span className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>
+      <span className="text-2xl sm:text-xl font-bold ml-0 sm:ml-2" style={{ color: 'var(--foreground)' }}>
         iSkate Admin Portal
       </span>
       <div className="relative">
