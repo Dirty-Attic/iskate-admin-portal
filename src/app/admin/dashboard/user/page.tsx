@@ -41,7 +41,14 @@ export default function UserManagementPage() {
     if (!date) return '';
     if (typeof date === 'string') return date;
     if (date instanceof Date) return date.toLocaleDateString();
-    if (typeof date === 'object' && date !== null && 'toDate' in date && typeof (date as Timestamp).toDate === 'function') {
+    // Type guard for Firestore Timestamp
+    if (
+      typeof date === 'object' &&
+      date !== null &&
+      'toDate' in date &&
+      typeof (date as Timestamp).toDate === 'function'
+    ) {
+      // Use Timestamp type explicitly
       return (date as Timestamp).toDate().toLocaleDateString();
     }
     return String(date);
