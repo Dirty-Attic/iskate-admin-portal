@@ -68,7 +68,7 @@ export default function AppManagementPage() {
       const appDocRef = doc(db, 'app/main');
       await updateDoc(appDocRef, { active: !appActive });
       setAppActive(!appActive);
-    } catch (err) {
+    } catch {
       setError('Failed to update app status.');
     } finally {
       setToggleLoading(false);

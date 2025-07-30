@@ -41,7 +41,9 @@ export default function UserManagementPage() {
     if (!date) return '';
     if (typeof date === 'string') return date;
     if (date instanceof Date) return date.toLocaleDateString();
-    if (typeof (date as Timestamp).toDate === 'function') return (date as Timestamp).toDate().toLocaleDateString();
+    if (typeof date === 'object' && date !== null && 'toDate' in date && typeof (date as Timestamp).toDate === 'function') {
+      return (date as Timestamp).toDate().toLocaleDateString();
+    }
     return String(date);
   }
 
