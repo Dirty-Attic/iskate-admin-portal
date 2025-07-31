@@ -39,5 +39,14 @@ export async function unsuspendUser(uid: string) {
 export async function updateUserRole(uid: string, role: string, give: boolean) {
   const db = getFirestore(app);
   const roleDocRef = doc(db, `users/${uid}/roles/${role}`);
-  await setDoc(roleDocRef, { active: give }, { merge: true });
+  if (give) {
+    await setDoc(roleDocRef, {
+      active: true,
+      timeStamp: Timestamp.now(),
+    }, { merge: true });
+  } else {
+    await setDoc(roleDocRef, {
+      active: false
+    }, { merge: true });
+  }
 }

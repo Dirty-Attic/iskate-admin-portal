@@ -14,7 +14,7 @@ import Image from "next/image";
 
 const db = getFirestore(firebaseApp);
 
-type SortOption = 'username' | 'uid' | 'roles';
+type SortOption = 'username' | 'uid' | 'roles' | 'lastLoggedIn';
 type FilterOption = 'all' | 'admin' | 'mod' | 'owner';
 
 type UserStatus = {
@@ -28,6 +28,7 @@ type UserStatus = {
 
 type User = import('@/context/UserContext').User & {
   status?: UserStatus;
+  lastLoggedIn?: string | null;
 };
 
 export default function UserManagementPage() {
@@ -71,6 +72,7 @@ export default function UserManagementPage() {
         username: data.username ?? '',
         photoURL: data.photoURL ?? null,
         status: data.status ?? {},
+        lastLoggedIn: data.lastLoggedIn ?? null,
       });
 
       const roleNames = ['admin', 'mod', 'owner'];
@@ -114,6 +116,10 @@ export default function UserManagementPage() {
         const rankB = getRoleRank(rolesMap[b.uid] || []);
         if (rankA !== rankB) return rankB - rankA;
         return (a.username ?? '').localeCompare(b.username ?? '');
+      } else if (sort === 'lastLoggedIn') {
+        const dateA = a.lastLoggedIn ? new Date(a.lastLoggedIn).getTime() : 0;
+        const dateB = b.lastLoggedIn ? new Date(b.lastLoggedIn).getTime() : 0;
+        return dateB - dateA;
       }
       return 0;
     });
@@ -159,6 +165,7 @@ export default function UserManagementPage() {
               <option value="username">Sort by Username</option>
               <option value="uid">Sort by UID</option>
               <option value="roles">Sort by Roles</option>
+              <option value="lastLoggedIn">Sort by Last Logged In</option>
             </select>
             <select value={filter} onChange={e => setFilter(e.target.value as FilterOption)} className="border px-3 py-2 rounded w-full sm:w-auto">
               <option value="all">All Users</option>
@@ -177,6 +184,7 @@ export default function UserManagementPage() {
                   <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Photo</th>
                   <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Username</th>
                   <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">UID</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Last Logged In</th>
                   <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Roles</th>
                   <th className="px-2 sm:px-4 py-2 sm:py-3 text-left font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
                 </tr>
@@ -196,6 +204,7 @@ export default function UserManagementPage() {
                     </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">{u.username}</td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 font-mono text-xs">{u.uid}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-mono text-xs">{u.lastLoggedIn ? new Date(u.lastLoggedIn).toLocaleString() : <span className="text-zinc-400">—</span>}</td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3">{rolesMap[u.uid]?.length ? rolesMap[u.uid].join(', ') : <span className="text-zinc-400">—</span>}</td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3">
                       <UserActionMenu
